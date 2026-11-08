@@ -239,6 +239,7 @@
     .hm[data-k="under"].lit b { color: #60a5fa; }
     #hero-hint { font: 500 10px/1 var(--mono); letter-spacing: 0.08em; color: var(--muted); opacity: 0.8; }
     #callout { width: 250px; }
+    #overlay { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none; overflow: visible; }
     #callout .detail { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     #hero-hint .finger { display: none; }
     body.touch #hero-hint .finger { display: inline; }
@@ -252,7 +253,7 @@
       .hm b { font-size: 13px; margin-top: 4px; white-space: nowrap; }
       .hm small { display: none; }
       #hero-time, #hero-hint { text-align: left; }
-      #callout { width: 210px; }
+      #callout { width: min(200px, 52vw); }
       #callout .detail { display: none; }
       #pip { left: 12px; top: 52px; bottom: auto; width: 38vw; padding: 4px; }
       #pip .eyebrow { display: none; }
@@ -386,6 +387,6 @@
 
   <div id="error" class="panel"></div>
 
-  <script type="module" src="main.js?v=hero2"></script>
+  <script type="module" src="main.js?v=hero3"></script>
 </body>
 </html>

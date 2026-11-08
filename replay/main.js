@@ -2014,7 +2014,21 @@ function positionCallout() {
   if (!Number.isFinite(ax) || !Number.isFinite(ay)) return;
   const card = $('callout');
   const cw = card.offsetWidth, ch = card.offsetHeight;
-  const left = (HERO && heroShift() > 0) || ax < w * 0.55 ? ax + 70 : ax - 70 - cw;
+  if (HERO) {
+    // Website: the note sits in a fixed spot at the top right, clear of the labels on the ice; a leader line joins it
+    // to the body part (from the phone's side the card and the landing labels piled up, user 2026-11-08).
+    const cl = w - cw - (w < 900 ? 12 : 16), ct = w < 900 ? 52 : 56;
+    card.style.left = `${cl}px`;
+    card.style.top = `${ct}px`;
+    const lx = ax < cl ? cl : cl + cw / 2, ly = ax < cl ? ct + ch / 2 : ct + ch;
+    const leader = $('leader');
+    leader.setAttribute('x1', ax); leader.setAttribute('y1', ay);
+    leader.setAttribute('x2', lx); leader.setAttribute('y2', ly);
+    const ring = $('ring');
+    ring.setAttribute('cx', ax); ring.setAttribute('cy', ay);
+    return;
+  }
+  const left = ax < w * 0.55 ? ax + 70 : ax - 70 - cw;
   const top = THREE.MathUtils.clamp(ay - ch - 40, 12, h - ch - 170);
   card.style.left = `${THREE.MathUtils.clamp(left, 12, w - cw - 12)}px`;
   card.style.top = `${top}px`;
@@ -2503,10 +2517,18 @@ function heroShotAt(frame) {
 }
 
 function heroSide() {
-  const dir = state.jumpDir.clone();
+  // Look square onto the flight arc at its highest point, from the far side (behind the skater, from the boards),
+  // opposite the filming phone: from the phone's side the landing labels and the note piled up (user, 2026-11-08).
+  const s0 = state.skaters[0];
+  const apex = s0.track.events?.apex;
+  let dir = state.jumpDir.clone();
+  if (apex !== undefined && s0.com[apex - 2] && s0.com[apex + 2]) {
+    const t = new THREE.Vector3().subVectors(s0.com[apex + 2], s0.com[apex - 2]).setY(0);
+    if (t.lengthSq() > 1e-6) dir = t.normalize();
+  }
   const side = new THREE.Vector3().crossVectors(UP, dir).normalize();
   const fc = filmingCamera();
-  if (fc && side.dot(new THREE.Vector3().subVectors(fc.pos, controls.target)) < 0) side.negate();
+  if (fc && side.dot(new THREE.Vector3().subVectors(fc.pos, s0.com[apex ?? 0])) > 0) side.negate();
   return { dir, side };
 }
 
@@ -2520,7 +2542,8 @@ function heroTick(dt, now) {
   }
   if (hero.user && hero.resumeAt && now >= hero.resumeAt) { hero.user = false; hero.resumeAt = 0; hero.blend = 0; }
   if (hero.user || hero.reduced || !state.skaters[0]) return;
-  if (!hero.basis) hero.basis = heroSide();
+  const first = !hero.basis;
+  if (first) hero.basis = heroSide();
   const { dir, side } = hero.basis;
   const [az, el, dist, look] = heroShotAt(state.frame);
   // Look-at height on top of the follow point (fixed at 1 m): lower for the shots that show angles on the ice.
@@ -2534,6 +2557,12 @@ function heroTick(dt, now) {
   const radius = dist * (camera.aspect < 0.9 ? 1.25 : 1);
   const want = flat.multiplyScalar(Math.cos(e)).addScaledVector(UP, Math.sin(e)).multiplyScalar(radius);
   // Glide toward the shot: quick enough to keep up with the jump, slow after a hand-over or a loop restart.
+  if (first) {  // start on the shot itself, no swing on load
+    hero.lift = look - 1.0;
+    controls.target.y = 1.0 + hero.lift;
+    camera.position.copy(controls.target).add(want);
+    return;
+  }
   hero.blend = Math.min(1, (hero.blend ?? 1) + dt / 1.5);
   const tau = 0.18 + 0.9 * (1 - hero.blend);
   const off = new THREE.Vector3().subVectors(camera.position, controls.target);
@@ -2650,6 +2679,6 @@ const loop = () => {
 renderer.setAnimationLoop(loop);
 
 // Console access for debugging (e.g. __skatesense.state.frame).
-window.__skatesense = { state, camera, controls, filmingCamera, lensTarget, THREE, renderer, footage, footageScene, footageCam };
+window.__skatesense = { state, camera, controls, setFrame, play, pause, filmingCamera, lensTarget, THREE, renderer, footage, footageScene, footageCam };
 
 init();
