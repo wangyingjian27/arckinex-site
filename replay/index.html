@@ -265,6 +265,14 @@
         "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
     } }
   </script>
+  <!-- Start every download at once instead of one after another (the player needs all of them before it plays). -->
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" crossorigin>
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/controls/OrbitControls.js" crossorigin>
+  <link rel="preload" href="replays/index.json" as="fetch" crossorigin>
+  <link rel="preload" href="replays/double-axel.json" as="fetch" crossorigin>
+  <link rel="preload" href="replays/double-axel.mesh.dz.gz" as="fetch" crossorigin>
+  <link rel="preload" href="replays/double-axel.hair.bin" as="fetch" crossorigin>
+  <link rel="preload" href="media/hair/short.webp" as="image" crossorigin>
 </head>
 <body>
   <video id="backdrop" muted playsinline preload="auto"></video>
@@ -387,6 +395,6 @@
 
   <div id="error" class="panel"></div>
 
-  <script type="module" src="main.js?v=hero3"></script>
+  <script type="module" src="main.js?v=hero4"></script>
 </body>
 </html>

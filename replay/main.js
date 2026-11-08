@@ -6,7 +6,7 @@ const $ = (id) => document.getElementById(id);
 const v3 = (x, y, z) => new THREE.Vector3(x, z, -y);
 const UP = new THREE.Vector3(0, 1, 0);
 const HOLD_MS = 2000;
-const FRESH = { cache: 'no-cache' };  // replays are rebuilt in place; always revalidate          // auto-pause on each coach note
+const FRESH = {};  // website copy: normal HTTP caching, so the page's preloads are reused  // replays are rebuilt in place; always revalidate          // auto-pause on each coach note
 const TAP_MS = 250;            // a press shorter than this without dragging is a tap
 const TAP_PX = 8;
 
@@ -1860,6 +1860,36 @@ function renderTimeline() {
 const dynamic = new THREE.Group();
 scene.add(dynamic);
 
+
+// The website ships the mesh as frame-to-frame differences, low and high bytes in separate planes, gzipped
+// (4.95 MB -> 1.33 MB); the browser unzips it with DecompressionStream. Older browsers fetch the plain file.
+async function loadMeshBuffer(mesh) {
+  const plain = async () => (await fetch(`replays/${mesh.file}`, FRESH)).arrayBuffer();
+  if (!mesh.packed || typeof DecompressionStream === 'undefined') return plain();
+  try {
+    const res = await fetch(`replays/${mesh.packed}`, FRESH);
+    if (!res.ok) return plain();
+    const bytes = new Uint8Array(await new Response(res.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+    const { frames: T, vertices: V } = mesh;
+    const S = V * 3, n = T * S;
+    const out = new ArrayBuffer(bytes.length);  // same size: n int16 values, then faces and labels unchanged
+    const pos = new Int16Array(out, 0, n);
+    for (let k = 0; k < S; k++) {
+      let acc = 0;
+      for (let t = 0; t < T; t++) {
+        const i = k * T + t;
+        acc = (acc + ((bytes[n + i] << 24 | bytes[i] << 16) >> 16)) << 16 >> 16;
+        pos[t * S + k] = acc;
+      }
+    }
+    new Uint8Array(out, 2 * n).set(bytes.subarray(2 * n));
+    return out;
+  } catch (err) {
+    console.warn('packed mesh failed, loading the plain file', err);
+    return plain();
+  }
+}
+
 async function loadReplay(file) {
   const res = await fetch(`replays/${file}`, FRESH);
   if (!res.ok) throw new Error(`Could not load ${file} (${res.status})`);
@@ -1876,7 +1906,7 @@ async function loadReplay(file) {
   state.nFrames = Math.max(...state.skaters.map((s) => s.points.length));
   for (const s of state.skaters) {
     if (!s.track.mesh) continue;
-    s.meshBuffer = await (await fetch(`replays/${s.track.mesh.file}`, FRESH)).arrayBuffer();
+    s.meshBuffer = await loadMeshBuffer(s.track.mesh);
     s.attachBody(new BodyMesh(s.track.mesh, s.meshBuffer, replay.bones));
     await loadHair(s);
   }
@@ -1897,7 +1927,11 @@ async function loadReplay(file) {
   }
   const video = $('pip-video');
   if (video.dataset.blob) URL.revokeObjectURL(video.dataset.blob);
-  if (replay.video) {
+  if (replay.video && HERO) {
+    video.src = replay.video;
+    video.preload = 'auto';
+    $('pip').style.display = state.showVideo ? 'block' : 'none';
+  } else if (replay.video) {
     // Load the clip as a blob so seeking works even on servers without HTTP range support.
     const blob = await (await fetch(replay.video, FRESH)).blob();
     video.dataset.blob = URL.createObjectURL(blob);
