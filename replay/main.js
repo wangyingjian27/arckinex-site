@@ -2483,7 +2483,12 @@ function heroShots() {
   ];
 }
 
+// The user found the changing angles dizzying (2026-11-08): one steady side view, slightly raised so the angles on
+// the ice stay readable, following the skater. heroShots() is kept for reference.
+const HERO_SIDE_SHOT = [0, 14, 5.8, 0.85];  // azimuth deg, elevation deg, distance m, look-at height m
+
 function heroShotAt(frame) {
+  if (HERO_SIDE_SHOT) return HERO_SIDE_SHOT;
   const keys = heroShots();
   if (frame <= keys[0][0]) return keys[0].slice(1);
   for (let i = 1; i < keys.length; i++) {
