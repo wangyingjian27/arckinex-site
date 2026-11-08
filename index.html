@@ -52,8 +52,12 @@
   /* Header */
   header { height: var(--header-h); display: flex; align-items: center; }
   header .bar { width: 100%; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
-  .brand span { font-family: var(--display); font-weight: 700; font-size: 21px; letter-spacing: -0.01em; }
+  /* Logo lock-up as on moonsay.net: the mark spans two rows, the company name sits under the product name */
+  .brand { display: inline-grid; grid-template-columns: auto auto; column-gap: 10px; align-items: center; text-decoration: none; }
+  .brand-mark { grid-row: 1 / span 2; display: block; }
+  .brand-name { grid-column: 2; grid-row: 1; font-family: var(--display); font-weight: 700; font-size: 21px; line-height: 1.05; letter-spacing: -0.01em; }
+  .brand-company { grid-column: 2; grid-row: 2; margin-top: 2px; font: 400 10.5px/1.2 var(--body); letter-spacing: 0.15px; color: var(--text-soft); }
+  .footer-company::before { content: "\00b7"; margin: 0 8px; }
   .nav-link {
     font-size: 14px; font-weight: 600; text-decoration: none; color: var(--text);
     padding: 8px 14px; border-radius: 999px; border: 1px solid var(--panel-line);
@@ -155,13 +159,15 @@
     .caption { padding: 0 16px; }
   }
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Arckinex","legalName":"Osmanthus Technologies LLC","url":"https://arckinex.com/"}</script>
 </head>
 <body>
   <header>
     <div class="bar">
-      <a class="brand" href="/" aria-label="Arckinex home">
-        <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25 Q16 -5 26 25" fill="none" stroke="#38d6ff" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="10" r="3.2" fill="#ffb347"/></svg>
-        <span>Arckinex</span>
+      <a class="brand" href="/" aria-label="Arckinex home, by Osmanthus Tech.">
+        <svg class="brand-mark" width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25 Q16 -5 26 25" fill="none" stroke="#38d6ff" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="10" r="3.2" fill="#ffb347"/></svg>
+        <span class="brand-name">Arckinex</span>
+        <span class="brand-company">Osmanthus Tech.</span>
       </a>
       <a class="nav-link" href="#contact">Contact</a>
     </div>
@@ -236,7 +242,7 @@
 
   <footer>
     <div class="wrap">
-      <span>&copy; 2026 Arckinex</span>
+      <span>&copy; 2026 Arckinex<span class="footer-company">Osmanthus Tech.</span></span>
       <span>arckinex.com</span>
     </div>
   </footer>
