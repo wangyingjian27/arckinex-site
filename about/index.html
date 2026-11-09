@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Arckinex</title>
+<meta name="description" content="Arckinex was started by Andy, a 10th grader and competitive figure skater who wanted to measure his own jumps with math, physics, 3D rendering and AI.">
+<meta property="og:title" content="About Arckinex">
+<meta property="og:description" content="A skater who wanted to see his own jumps from every angle, and measure them.">
+<meta property="og:url" content="https://arckinex.com/about/">
+<meta name="theme-color" content="#070b18">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23070b18'/%3E%3Cpath d='M6 25 Q16 -5 26 25' fill='none' stroke='%2338d6ff' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='3.2' fill='%23ffb347'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070b18;
+    --bg-2: #0d1430;
+    --panel: rgba(255, 255, 255, 0.045);
+    --panel-line: rgba(255, 255, 255, 0.11);
+    --text: #eef3ff;
+    --text-soft: #a7b3d6;
+    --text-faint: #6f7ba0;
+    --cyan: #38d6ff;
+    --cyan-ink: #03202b;
+    --amber: #ffb347;
+    --violet: #8b7bff;
+    --pre: #e879f9;
+    --under: #60a5fa;
+    --header-h: 68px;
+    --display: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    --body: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background:
+      radial-gradient(900px 520px at 90% -5%, rgba(56, 214, 255, 0.12), transparent 60%),
+      radial-gradient(800px 520px at -10% 40%, rgba(139, 123, 255, 0.12), transparent 60%),
+      linear-gradient(180deg, var(--bg), var(--bg-2) 70%, var(--bg));
+    color: var(--text);
+    font-family: var(--body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  header { height: var(--header-h); display: flex; align-items: center; }
+  header .bar { width: 100%; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand-mark { display: block; }
+  .brand-name { font-family: var(--display); font-weight: 700; font-size: 21px; letter-spacing: -0.01em; }
+  nav { display: flex; gap: 8px; }
+  .nav-link {
+    font-size: 14px; font-weight: 600; text-decoration: none; color: var(--text);
+    padding: 8px 14px; border-radius: 999px; border: 1px solid var(--panel-line);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .nav-link:hover, .nav-link[aria-current="page"] { border-color: var(--cyan); background: rgba(56, 214, 255, 0.08); }
+  .nav-link:focus-visible, .btn:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+
+  .eyebrow { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin: 0 0 14px; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 6vw, 64px); line-height: 1.04; letter-spacing: -0.035em; margin: 0; }
+  h1 em { font-style: normal; background: linear-gradient(90deg, var(--cyan), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3.4vw, 34px); letter-spacing: -0.02em; margin: 0 0 16px; line-height: 1.12; }
+  h3 { font-family: var(--display); font-size: 20px; letter-spacing: -0.01em; margin: 10px 0 8px; }
+  p { line-height: 1.7; font-size: 17px; color: var(--text-soft); margin: 0 0 16px; }
+  p strong { color: var(--text); font-weight: 600; }
+  section { padding: 30px 0; }
+
+  .intro { padding: 44px 0 20px; }
+  .intro .lead { font-size: 19px; max-width: 700px; margin-top: 18px; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 28px 0 0; }
+  .stat { padding: 16px 18px; border-radius: 14px; background: var(--panel); border: 1px solid var(--panel-line); }
+  .stat .k { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .stat .v { font-family: var(--display); font-size: 21px; font-weight: 700; margin-top: 6px; letter-spacing: -0.01em; }
+  .stat .s { font-size: 13.5px; color: var(--text-soft); margin-top: 4px; line-height: 1.45; }
+
+  .quote {
+    margin: 10px 0; padding: 28px 30px; border-radius: 20px; position: relative;
+    background: linear-gradient(135deg, rgba(56, 214, 255, 0.10), rgba(139, 123, 255, 0.08));
+    border: 1px solid rgba(56, 214, 255, 0.22);
+  }
+  .quote blockquote { margin: 0; font-family: var(--display); font-size: clamp(22px, 3vw, 30px); line-height: 1.3; letter-spacing: -0.015em; color: var(--text); }
+  .quote blockquote::before { content: "\201C"; color: var(--cyan); margin-right: 2px; }
+  .quote blockquote::after { content: "\201D"; color: var(--cyan); margin-left: 2px; }
+  .quote cite { display: block; margin-top: 12px; font-style: normal; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+  .says { border-left: 2px solid var(--cyan); padding-left: 18px; }
+
+  .goals { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .card { padding: 22px 22px 8px; border-radius: 18px; background: var(--panel); border: 1px solid var(--panel-line); }
+  .card .num { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--amber); letter-spacing: 0.08em; }
+  .card p { font-size: 15.5px; line-height: 1.6; }
+
+  .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  .how .card .num { color: var(--cyan); }
+  .formula {
+    margin: 4px 0 14px; padding: 12px 14px; border-radius: 12px; background: rgba(5, 9, 22, 0.7);
+    border: 1px solid var(--panel-line); font-family: var(--mono); font-size: 13.5px; color: var(--text); line-height: 1.7;
+  }
+  .formula .hl { color: var(--amber); }
+  .formula small { display: block; color: var(--text-faint); font-size: 12px; }
+
+  .jump { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center; }
+  .facts { display: grid; gap: 8px; }
+  .fact { display: flex; justify-content: space-between; gap: 12px; padding: 11px 14px; border-radius: 12px; background: var(--panel); border: 1px solid var(--panel-line); font-family: var(--mono); font-size: 13px; }
+  .fact span { color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.06em; font-size: 11.5px; }
+  .fact b { font-weight: 600; }
+  .fact.pre b { color: var(--pre); }
+  .fact.under b { color: var(--under); }
+  .fact.warn b { color: var(--amber); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 20px; border-radius: 12px; background: var(--cyan); color: var(--cyan-ink); text-decoration: none;
+    font-size: 16px; font-weight: 700; transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .btn:hover { background: #6be2ff; transform: translateY(-1px); }
+  .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--panel-line); }
+  .btn.ghost:hover { border-color: var(--cyan); background: rgba(56, 214, 255, 0.08); }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+
+  .credits { font-size: 14px; line-height: 1.7; color: var(--text-faint); }
+  .credits a { color: var(--text-soft); }
+  footer { border-top: 1px solid var(--panel-line); margin-top: 40px; padding: 22px 0 30px; color: var(--text-faint); font-size: 13px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  @media (max-width: 820px) {
+    .stats, .how { grid-template-columns: 1fr; }
+    .goals, .jump { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .wrap, header .bar { padding: 0 16px; }
+    .quote { padding: 22px 20px; }
+    p { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Arckinex home">
+        <svg class="brand-mark" width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25 Q16 -5 26 25" fill="none" stroke="#38d6ff" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="10" r="3.2" fill="#ffb347"/></svg>
+        <span class="brand-name">Arckinex</span>
+      </a>
+      <nav aria-label="Main">
+        <a class="nav-link" href="/about/" aria-current="page">About</a>
+        <a class="nav-link" href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="intro">
+      <p class="eyebrow">About Arckinex</p>
+      <h1>I wanted to <em>see my own jumps.</em></h1>
+      <p class="lead">Arckinex was started by <strong>Andy</strong>, a 10th grader and competitive figure skater who is training his triple jumps, and who likes math a lot.</p>
+      <div class="stats" aria-label="About Andy">
+        <div class="stat"><div class="k">On the ice</div><div class="v">Triple jumps</div><div class="s">Competitive figure skater, training triples now</div></div>
+        <div class="stat"><div class="k">9th grade</div><div class="v">AP Calc AB &amp; BC</div><div class="s">Both finished in one year</div></div>
+        <div class="stat"><div class="k">10th grade</div><div class="v">Calculus III</div><div class="s">Multivariable calculus, a college course</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Hi, I'm Andy</h2>
+      <div class="says">
+        <p>"I spend a lot of my week at the rink. Right now I'm working on my triples, and if you've ever tried one you know how it goes: you fall, you get up, you try again, and you're never totally sure what went wrong."</p>
+        <p>"A jump is over in about half a second. On a phone video it's basically a blur, and from one angle you can't really tell what your body did in the air. Was I already turning before I left the ice? Did I land a little short? I wanted to slow it down, turn it around, and actually <strong>measure</strong> it."</p>
+        <p>"I also really like math. I finished AP Calc AB and BC in 9th grade and I'm taking Calculus III this year. At some point I realized a jump is a math problem too: once you're in the air, it's all physics."</p>
+      </div>
+    </section>
+
+    <div class="quote">
+      <blockquote>A jump is over in half a second, and its score is decided by eye. I wanted numbers.</blockquote>
+      <cite>Andy, on why he started Arckinex</cite>
+    </div>
+
+    <section>
+      <h2>Why I started it</h2>
+      <div class="says">
+        <p>"In figure skating, every jump gets a Grade of Execution, the GOE, from a panel of judges. The judges really know skating, but they watch each jump once, in real time, from where they sit. The marks are subjective, people argue about them all the time, and two judges can see the same jump pretty differently."</p>
+        <p>"But a lot of what they look for can be measured. How high was the jump? How long was I in the air? How far had I turned before my blade left the ice? Did I land short of a full rotation? Those are numbers, not opinions."</p>
+      </div>
+      <div class="goals">
+        <div class="card">
+          <div class="num">GOAL 01</div>
+          <h3>Get better at skating</h3>
+          <p>"I want to see exactly what changes between a jump that works and one that doesn't, so practice is about facts instead of guesses. If it helps me, it can help other skaters too."</p>
+        </div>
+        <div class="card">
+          <div class="num">GOAL 02</div>
+          <h3>Make scoring more consistent</h3>
+          <p>"I'd love for skaters, coaches and judges to have measured numbers next to the marks, so scores are easier to explain and more consistent from one panel to the next."</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>How it works</h2>
+      <p>"It takes one normal phone video. Behind that there are three things I'm into."</p>
+      <div class="how">
+        <div class="card">
+          <div class="num">01 &middot; MATH &amp; PHYSICS</div>
+          <h3>A jump is a projectile</h3>
+          <p>"Once you leave the ice, gravity is the only thing pulling on you, so your center of mass flies on a parabola. That means the air time alone tells you the height."</p>
+          <div class="formula">h = ½·g·(t/2)² = <span class="hl">g·t²/8</span><small>g = 9.81 m/s², t = 0.52 s</small>h ≈ <span class="hl">33 cm</span></div>
+          <p>"The same physics keeps the 3D body honest: if the motion breaks the parabola, something in the reconstruction is off."</p>
+        </div>
+        <div class="card">
+          <div class="num">02 &middot; 3D RENDERING</div>
+          <h3>Turn it to any angle</h3>
+          <p>"The replay is a 3D body drawn right in your browser, so you can look from the side, the front or straight down. Lines on the ice show the take-off and landing angles, and the parts that need work light up."</p>
+        </div>
+        <div class="card">
+          <div class="num">03 &middot; AI ANALYSIS</div>
+          <h3>From pixels to a 3D body</h3>
+          <p>"An AI model reads the body's pose from every frame of the video and builds a 3D body from it. Then we check it against physics and against reference jumps, and measure things like pre-rotation, rotation in the air and under-rotation."</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The jump on the home page is mine</h2>
+      <div class="jump">
+        <div class="says">
+          <p>"That double Axel on the home page is me, filmed on a phone at my rink (people in the background are blurred). It's not a perfect jump, and that's kind of the point: the numbers say I carried less speed into it than skaters usually do, which is exactly the kind of thing I want to find."</p>
+          <p>"Next I want to add more jump types, try it on more skaters, and compare the numbers with real judges' marks."</p>
+          <div class="cta">
+            <a class="btn" href="/">Watch the replay</a>
+            <a class="btn ghost" href="/#contact">Get in touch</a>
+          </div>
+        </div>
+        <div class="facts" aria-label="Measured on Andy's double Axel">
+          <div class="fact"><span>Air time</span><b>0.52 s</b></div>
+          <div class="fact"><span>Height (from air time)</span><b>33 cm</b></div>
+          <div class="fact pre"><span>Pre-rotation</span><b>108°</b></div>
+          <div class="fact"><span>Rotation in the air</span><b>735°</b></div>
+          <div class="fact under"><span>Under-rotation</span><b>136°</b></div>
+          <div class="fact warn"><span>Speed into the jump</span><b>3.4 m/s · typical 4.6</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="credits">Built with open tools and published work: <a href="https://ai.meta.com/research/publications/sam-3d-body-robust-full-body-human-mesh-recovery/" target="_blank" rel="noopener noreferrer">SAM 3D Body</a> (Meta) for the 3D body, <a href="https://threejs.org" target="_blank" rel="noopener noreferrer">three.js</a> for the 3D replay, the ISU's GOE guidelines (Communication 2788), and the <a href="https://github.com/ryota-skating/FS-Jump3D" target="_blank" rel="noopener noreferrer">FS-Jump3D</a> research dataset (Tanaka et al., MMSports 2024) for reference jumps used in development.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>&copy; 2026 Arckinex</span>
+      <span>arckinex.com</span>
+    </div>
+  </footer>
+</body>
+</html>
