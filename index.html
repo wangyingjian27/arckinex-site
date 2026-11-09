@@ -52,15 +52,6 @@
   /* Header */
   header { height: var(--header-h); display: flex; align-items: center; }
   header .bar { width: 100%; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
-  .brand-mark { display: block; }
-  .brand-name { font-family: var(--display); font-weight: 700; font-size: 21px; letter-spacing: -0.01em; }
-  .nav-link {
-    font-size: 14px; font-weight: 600; text-decoration: none; color: var(--text);
-    padding: 8px 14px; border-radius: 999px; border: 1px solid var(--panel-line);
-    transition: border-color 0.15s ease, background 0.15s ease;
-  }
-  .nav-link:hover { border-color: var(--cyan); background: rgba(56, 214, 255, 0.08); }
 
   /* Hero: the live 3D replay fills the first screen, the headline sits in the empty sky at the top left */
   .hero { position: relative; height: calc(100svh - var(--header-h)); min-height: 560px; max-height: 1100px;
@@ -95,7 +86,7 @@
     transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
   }
   .btn:hover { background: #6be2ff; transform: translateY(-1px); }
-  .btn:focus-visible, .nav-link:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+  .btn:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
   .btn[disabled] { opacity: 0.6; cursor: progress; transform: none; }
   .note { font-size: 13.5px; color: var(--text-soft); line-height: 1.45; }
   .caption { max-width: 1120px; margin: 14px auto 0; padding: 0 24px; font-size: 13px; color: var(--text-faint); line-height: 1.5; }
@@ -155,18 +146,39 @@
     .row { grid-template-columns: 1fr; }
     .caption { padding: 0 16px; }
   }
+  /* Header: the Arckinex wordmark (the arch is the A) and two bright buttons */
+  .brand { display: inline-flex; align-items: center; text-decoration: none; }
+  .wordmark { display: block; height: 34px; width: auto; }
+  .nav { display: flex; align-items: center; gap: 10px; }
+  .nav-link {
+    display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+    font-size: 14.5px; font-weight: 650; letter-spacing: 0.01em; color: #e9f9ff;
+    padding: 9px 16px; border-radius: 999px;
+    background: rgba(56, 214, 255, 0.10); border: 1px solid rgba(56, 214, 255, 0.55);
+    box-shadow: 0 0 18px rgba(56, 214, 255, 0.20), inset 0 0 12px rgba(56, 214, 255, 0.08);
+    transition: background 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease, filter 0.15s ease;
+  }
+  .nav-link svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-link:hover, .nav-link[aria-current="page"] { background: rgba(56, 214, 255, 0.20); border-color: #38d6ff; box-shadow: 0 0 26px rgba(56, 214, 255, 0.38), inset 0 0 14px rgba(56, 214, 255, 0.12); }
+  .nav-link.cta { color: #04131c; background: linear-gradient(90deg, #38d6ff, #8b7bff); border-color: transparent;
+    box-shadow: 0 6px 24px rgba(99, 160, 255, 0.40); }
+  .nav-link.cta:hover { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 8px 30px rgba(99, 160, 255, 0.55); }
+  .nav-link:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+  @media (max-width: 520px) {
+    .wordmark { height: 27px; }
+    .nav { gap: 7px; }
+    .nav-link { padding: 8px 12px; font-size: 13.5px; }
+    .nav-link svg { display: none; }
+  }
 </style>
 </head>
 <body>
   <header>
     <div class="bar">
-      <a class="brand" href="/" aria-label="Arckinex home">
-        <svg class="brand-mark" width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25 Q16 -5 26 25" fill="none" stroke="#38d6ff" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="10" r="3.2" fill="#ffb347"/></svg>
-        <span class="brand-name">Arckinex</span>
-      </a>
-      <nav aria-label="Main" style="display:flex;gap:8px">
-        <a class="nav-link" href="about/">About</a>
-        <a class="nav-link" href="#contact">Contact</a>
+      <a class="brand" href="/" aria-label="Arckinex home"><svg class="wordmark" viewBox="2 24 380 73" aria-hidden="true" focusable="false"><defs><linearGradient id="arckinex-arch-dark" x1="10" y1="0" x2="74" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#38d6ff"/><stop offset="1" stop-color="#8b7bff"/></linearGradient></defs><path d="M10 84.5 Q42 -8.7 74 84.5" fill="none" stroke="url(#arckinex-arch-dark)" stroke-width="15" stroke-linecap="round"/><circle cx="42" cy="37.9" r="9.5" fill="#ffb347" stroke="#070b18" stroke-width="3"/><g fill="#eef3ff"><path d="M88.16 92V48.35H99.07V53.28H100.66Q101.62 50.64 103.87 49.41Q106.11 48.18 109.1 48.18H114.38V58.03H108.93Q104.7 58.03 101.98 60.28Q99.25 62.52 99.25 67.18V92Z"/><path d="M138.93 93.23Q132.59 93.23 127.44 90.59Q122.3 87.95 119.3 82.94Q116.31 77.92 116.31 70.79V69.56Q116.31 62.43 119.3 57.42Q122.3 52.4 127.44 49.76Q132.59 47.12 138.93 47.12Q145.18 47.12 149.66 49.32Q154.15 51.52 156.92 55.35Q159.7 59.18 160.58 64.02L149.84 66.3Q149.49 63.66 148.26 61.55Q147.02 59.44 144.78 58.21Q142.54 56.98 139.19 56.98Q135.85 56.98 133.16 58.43Q130.48 59.88 128.94 62.74Q127.4 65.6 127.4 69.74V70.62Q127.4 74.75 128.94 77.61Q130.48 80.47 133.16 81.92Q135.85 83.38 139.19 83.38Q144.21 83.38 146.8 80.78Q149.4 78.18 150.1 73.96L160.84 76.51Q159.7 81.18 156.92 85Q154.15 88.83 149.66 91.03Q145.18 93.23 138.93 93.23Z"/><path d="M166.99 92V30.4H178.08V64.46H179.66L194.1 48.35H208.53L188.38 69.47L209.23 92H194.98L179.66 74.66H178.08V92Z"/><path d="M213.62 92V48.35H224.71V92ZM219.17 43.25Q216.18 43.25 214.11 41.31Q212.04 39.38 212.04 36.21Q212.04 33.04 214.11 31.1Q216.18 29.17 219.17 29.17Q222.25 29.17 224.27 31.1Q226.3 33.04 226.3 36.21Q226.3 39.38 224.27 41.31Q222.25 43.25 219.17 43.25Z"/><path d="M234.03 92V48.35H244.94V54.07H246.53Q247.58 51.78 250.49 49.72Q253.39 47.65 259.29 47.65Q264.39 47.65 268.22 49.98Q272.05 52.31 274.16 56.4Q276.27 60.5 276.27 65.95V92H265.18V66.83Q265.18 61.9 262.76 59.44Q260.34 56.98 255.86 56.98Q250.75 56.98 247.94 60.36Q245.12 63.75 245.12 69.82V92Z"/><path d="M305.13 93.23Q298.62 93.23 293.64 90.46Q288.67 87.69 285.9 82.63Q283.13 77.57 283.13 70.7V69.65Q283.13 62.78 285.86 57.72Q288.58 52.66 293.51 49.89Q298.44 47.12 304.95 47.12Q311.38 47.12 316.13 49.98Q320.88 52.84 323.52 57.9Q326.16 62.96 326.16 69.65V73.43H294.39Q294.57 77.92 297.74 80.74Q300.9 83.55 305.48 83.55Q310.14 83.55 312.34 81.53Q314.54 79.5 315.69 77.04L324.75 81.79Q323.52 84.08 321.19 86.76Q318.86 89.45 314.98 91.34Q311.11 93.23 305.13 93.23ZM294.48 65.16H314.9Q314.54 61.38 311.86 59.09Q309.18 56.8 304.86 56.8Q300.38 56.8 297.74 59.09Q295.1 61.38 294.48 65.16Z"/><path d="M326.33 92 342.17 70 326.5 48.35H339.35L349.3 62.87H350.88L360.82 48.35H373.67L358.01 70L373.85 92H360.82L350.88 77.3H349.3L339.35 92Z"/></g></svg></a>
+      <nav class="nav" aria-label="Main">
+        <a class="nav-link" href="about/"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.4-3.6 4.2-5.4 7.5-5.4s6.1 1.8 7.5 5.4"/></svg>About</a>
+        <a class="nav-link cta" href="#contact"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>Contact</a>
       </nav>
     </div>
   </header>
